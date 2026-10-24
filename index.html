@@ -405,16 +405,21 @@
         function clearChat() {
             document.getElementById('chat-box').innerHTML = '<div class="bg-surface-container-high p-2.5 rounded-lg max-w-[85%] self-start text-on-surface">Memoria de chat liberada.</div>';
         }
-
-        function initDeviceMonitoring() {
+                function initDeviceMonitoring() {
             if ('getBattery' in navigator) {
                 navigator.getBattery().then(battery => {
-                    document.getElementById('metric-battery').innerText = `${Math.round(battery.level * 100)}%`;
+                    const level = Math.round(battery.level * 100);
+                    const charging = battery.charging ? ' (Cargando)' : '';
+                    document.getElementById('metric-battery').innerText = `${level}%${charging}`;
+                }).catch(() => {
+                    document.getElementById('metric-battery').innerText = 'No disponible';
                 });
+            } else {
+                document.getElementById('metric-battery').innerText = 'No soportado';
             }
-            if (navigator.hardwareConcurrency) {
-                document.getElementById('metric-cores').innerText = `${navigator.hardwareConcurrency} Cores`;
-            }
+
+            const cores = navigator.hardwareConcurrency || 'N/D';
+            document.getElementById('metric-cores').innerText = `${cores} Cores`;
             document.getElementById('metric-network').innerText = navigator.onLine ? 'Online' : 'Offline';
             checkOsStatus();
         }
