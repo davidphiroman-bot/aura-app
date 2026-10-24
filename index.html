@@ -237,11 +237,22 @@
       drawer.classList.add('hidden');
     }
   }
-</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/85 back
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
-  }
-</script>
+  </main>
+
+  <nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-1px_rgba(0,0,0,0.4)] pt-safe">
+    <!-- Contorno de navegación -->
+  </nav>
+
+  <!-- Registro del Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+          .catch(err => console.log('Error al registrar el Service Worker:', err));
+      });
+    }
+  </script>
 </body>
 </html>
+      
