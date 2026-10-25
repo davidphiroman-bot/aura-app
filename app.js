@@ -76,3 +76,28 @@ function startCanvasAnimations() {
     }
     draw();
 }
+function setActiveTab(tabId) {
+    // Oculta la galería general y muestra la vista de pantalla activa
+    switchViewMode('single');
+
+    // Mapea cada pestaña con su respectivo módulo modular
+    const modules = {
+        'tee': renderSiliconTeModule(),       // Viene de silicon-tee.js
+        'mesh': renderMeshNetworkModule(),     // Viene de mesh-network.js
+        'vault': renderVectorVaultModule(),    // Viene de vector-vault.js
+        'neural': renderNeuralAgentModule()    // Viene de neural-agent.js
+    };
+
+    // Inyecta el contenido del módulo seleccionado en el contenedor principal
+    // (Puedes asegurarte de tener un <div id="dynamic-module-container"></div> en tu HTML para esto)
+    const container = document.getElementById('dynamic-module-container');
+    if (container && modules[tabId]) {
+        container.innerHTML = modules[tabId];
+    }
+
+    // Refresca los iconos gráficos de Lucide
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+        
+
