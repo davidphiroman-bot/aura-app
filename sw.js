@@ -1,4 +1,9 @@
-const CACHE_VERSION = 'aura-v5.5.0';
+/**
+ * AURA AI SOVEREIGN OS - SERVICE WORKER v6.0.0
+ * Motor de Caché Atómica, PWA Offline-First y Control de Enclave
+ */
+
+const CACHE_VERSION = 'aura-v6.0.0';
 const STATIC_CACHE = `aura-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `aura-dynamic-${CACHE_VERSION}`;
 
@@ -7,20 +12,16 @@ const STATIC_ASSETS = [
   './index.html',
   './styles.css',
   './app.js',
+  './aura-engine.js',
+  './agent-studio.js',
+  './logo-studio.js',
+  './optical-studio.js',
   './manifest.json',
-  './silicon-tee.js',
-  './mesh-network.js',
-  './vector-vault.js',
-  './neural-agent.js',
   './icon-192.png',
   './icon-512.png'
 ];
 
-const EXTERNAL_ORIGINS = [
-  'cdn.jsdelivr.net',
-  'unpkg.com'
-];
-
+// Fase de Instalación: Cacheo atómico del App Shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => {
@@ -29,6 +30,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Fase de Activación: Purgado de cachés obsoletas y control inmediato
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -43,12 +45,14 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Fase de Interceptación (Fetch): Estrategia Cache-First con respaldo de red
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
   if (request.method !== 'GET') return;
 
+  // Manejo de navegación SPA
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       fetch(request)
@@ -63,6 +67,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Activos locales del mismo origen
   if (url.origin === location.origin) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
@@ -78,24 +83,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (EXTERNAL_ORIGINS.some(origin => url.hostname.includes(origin))) {
-    event.respondWith(
-      caches.open(DYNAMIC_CACHE).then((cache) => {
-        return cache.match(request).then((cachedResponse) => {
-          const fetchPromise = fetch(request).then((networkResponse) => {
-            if (networkResponse.status === 200) {
-              cache.put(request, networkResponse.clone());
-            }
-            return networkResponse;
-          }).catch(() => cachedResponse);
-
-          return cachedResponse || fetchPromise;
-        });
-      })
-    );
-    return;
-  }
-
+  // Peticiones externas por defecto
   event.respondWith(
     caches.match(request).then((response) => response || fetch(request))
   );
