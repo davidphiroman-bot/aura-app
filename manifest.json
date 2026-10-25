@@ -7,6 +7,7 @@
   "orientation": "portrait",
   "background_color": "#050811",
   "theme_color": "#050811",
+  "description": "Sistema operativo soberano con inferencia local, enclaves Ring-0 y 145 herramientas modulares.",
   "icons": [
     {
       "src": "./icon-192.png",
@@ -22,4 +23,3 @@
     }
   ]
 }
-
