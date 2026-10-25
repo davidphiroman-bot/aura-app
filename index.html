@@ -108,12 +108,24 @@
         </section>
     </main>
 
-    <!-- Carga de Módulos Modulares -->
+        <!-- Carga de Módulos Modulares -->
     <script src="silicon-tee.js"></script>
     <script src="mesh-network.js"></script>
     <script src="vector-vault.js"></script>
     <script src="neural-agent.js"></script>
     <script src="app.js"></script>
+
+    <!-- Registro del Service Worker para PWA Offline -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+                    .catch(err => console.log('Error al registrar el Service Worker:', err));
+            });
+        }
+    </script>
 </body>
 </html>
+
 
