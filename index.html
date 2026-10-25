@@ -1,1 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura AI Sovereign OS</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="glass-panel sticky top-0 z-50 border-b border-gray-800 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                </div>
+                <h1 class="font-bold text-lg text-white flex items-center gap-2">
+                    AURA AI <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-mono">v5.2</span>
+                </h1>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-900/80 p-1 rounded-xl border border-gray-800">
+                <button id="btn-view-gallery" onclick="switchViewMode('gallery')" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500 text-black">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> Galería
+                </button>
+                <button id="btn-view-single" onclick="switchViewMode('single')" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-400">
+                    <i data-lucide="monitor" class="w-4 h-4"></i> Pantalla
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-gray-950 border-b border-gray-800/60 px-4 py-2 overflow-x-auto">
+        <div class="max-w-7xl mx-auto flex items-center gap-2 text-xs">
+            <button onclick="setActiveTab('hub')" class="tab-btn px-3 py-1.5 rounded-lg bg-gray-800 text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-hub"><i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i> Centro de Control</button>
+            <button onclick="setActiveTab('widget-designer')" class="tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-widget-designer"><i data-lucide="palette" class="w-4 h-4 text-purple-400"></i> Diseñador Widgets</button>
+            <button onclick="setActiveTab('neural')" class="tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-neural"><i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i> Agente Neuronal</button>
+            <button onclick="setActiveTab('vault')" class="tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-vault"><i data-lucide="database" class="w-4 h-4 text-amber-400"></i> Bóveda Vectorial</button>
+            <button onclick="setActiveTab('mesh')" class="tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-mesh"><i data-lucide="share-2" class="w-4 h-4 text-blue-400"></i> Red Mesh P2P</button>
+            <button onclick="setActiveTab('tee')" class="tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap" id="tab-tee"><i data-lucide="shield-check" class="w-4 h-4 text-rose-400"></i> Enclave TEE</button>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+        <section id="view-mode-gallery" class="space-y-6">
+            <h2 class="text-xl font-bold text-white flex items-center gap-2"><i data-lucide="layout-grid" class="text-cyan-400"></i> Módulos de Aura AI</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="glass-panel rounded-2xl p-5 border border-gray-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3"><span class="p-2 rounded-xl bg-cyan-500/10 text-cyan-400"><i data-lucide="activity" class="w-5 h-5"></i></span><span class="text-xs font-mono text-gray-400">01 / HUB</span></div>
+                        <h3 class="font-bold text-lg text-white mb-1">Centro de Control</h3>
+                        <p class="text-xs text-gray-400 mb-4">Telemetría NPU en vivo.</p>
+                    </div>
+                    <button onclick="openTabFromGallery('hub')" class="mt-4 w-full py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold flex items-center justify-center gap-2">Ver Pantalla</button>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-5 border border-gray-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3"><span class="p-2 rounded-xl bg-purple-500/10 text-purple-400"><i data-lucide="palette" class="w-5 h-5"></i></span><span class="text-xs font-mono text-gray-400">02 / WIDGETS</span></div>
+                        <h3 class="font-bold text-lg text-white mb-1">Diseñador Widgets</h3>
+                        <p class="text-xs text-gray-400 mb-4">Personalizador visual.</p>
+                    </div>
+                    <button onclick="openTabFromGallery('widget-designer')" class="mt-4 w-full py-2 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold flex items-center justify-center gap-2">Ver Pantalla</button>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-5 border border-gray-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3"><span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400"><i data-lucide="bot" class="w-5 h-5"></i></span><span class="text-xs font-mono text-gray-400">03 / NEURAL</span></div>
+                        <h3 class="font-bold text-lg text-white mb-1">Agente Neuronal</h3>
+                        <p class="text-xs text-gray-400 mb-4">Inferencia offline LLM.</p>
+                    </div>
+                    <button onclick="openTabFromGallery('neural')" class="mt-4 w-full py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold flex items-center justify-center gap-2">Ver Pantalla</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="view-mode-single" class="hidden space-y-6">
+            <div id="content-hub" class="space-y-6">
+                <div class="glass-panel rounded-2xl p-5 border border-gray-800 glow-cyan">
+                    <h3 class="font-bold text-lg text-white flex items-center gap-2 mb-4"><i data-lucide="cpu" class="text-cyan-400"></i> Telemetría de Silicio</h3>
+                    <div class="h-64 bg-gray-950 rounded-xl p-4 border border-gray-800"><canvas id="hub-main-canvas" class="w-full h-full"></canvas></div>
+                </div>
+            </div>
+
+            <div id="content-widget-designer" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-panel rounded-2xl p-5 border border-purple-500/30 space-y-4">
+                        <h3 class="font-bold text-lg text-white flex items-center gap-2"><i data-lucide="sliders" class="text-purple-400"></i> Parámetros</h3>
+                        <div>
+                            <label class="text-xs text-gray-300 block mb-1">Bordes: <span id="wd-radius-val" class="font-mono text-purple-400">16px</span></label>
+                            <input type="range" id="wd-radius" min="0" max="28" value="16" oninput="updateCustomWidget()" class="w-full">
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 border border-gray-800">
+                        <div id="widget-preview-container" class="w-full p-6 rounded-2xl bg-gray-900 border border-purple-500/40 glow-purple"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-neural" class="hidden glass-panel rounded-2xl p-6 border border-emerald-500/30 text-xs text-gray-300 font-mono">
+                [SISTEMA]: Modelo Aura-7B activo offline.
+            </div>
+            <div id="content-vault" class="hidden glass-panel rounded-2xl p-6 border border-amber-500/30 text-xs text-gray-400">Bóveda Cifrada IndexedDB.</div>
+            <div id="content-mesh" class="hidden glass-panel rounded-2xl p-6 border border-blue-500/30 text-xs text-gray-400">Red Mesh P2P Offline.</div>
+            <div id="content-tee" class="hidden glass-panel rounded-2xl p-6 border border-rose-500/30 text-xs text-rose-300 font-mono">TEE Enclave: Ring-0 PASADO.</div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
 
