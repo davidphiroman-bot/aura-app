@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) {
         lucide.createIcons();
@@ -21,23 +20,6 @@ function switchViewMode(mode) {
     }
 }
 
-function setActiveTab(tabId) {
-    switchViewMode('single');
-    const tabs = ['hub', 'widget-designer', 'neural', 'vault', 'mesh', 'tee'];
-    tabs.forEach(t => {
-        const btn = document.getElementById('tab-' + t);
-        const content = document.getElementById('content-' + t);
-        if (t === tabId) {
-            if (btn) btn.className = "tab-btn px-3 py-1.5 rounded-lg bg-gray-800 text-white font-medium flex items-center gap-2 whitespace-nowrap border border-gray-700";
-            if (content) content.classList.remove('hidden');
-        } else {
-            if (btn) btn.className = "tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap";
-            if (content) content.classList.add('hidden');
-        }
-    });
-    if (tabId === 'widget-designer') updateCustomWidget();
-}
-
 function openTabFromGallery(tabId) {
     setActiveTab(tabId);
 }
@@ -46,7 +28,8 @@ function updateCustomWidget() {
     const radiusInput = document.getElementById('wd-radius');
     if (!radiusInput) return;
     const radius = radiusInput.value;
-    document.getElementById('wd-radius-val').innerText = radius + 'px';
+    const valSpan = document.getElementById('wd-radius-val');
+    if (valSpan) valSpan.innerText = radius + 'px';
     const container = document.getElementById('widget-preview-container');
     if (container) {
         container.style.borderRadius = radius + 'px';
@@ -76,28 +59,45 @@ function startCanvasAnimations() {
     }
     draw();
 }
+
+// ÚNICA función setActiveTab unificada para manejar los módulos y las pestañas
 function setActiveTab(tabId) {
-    // Oculta la galería general y muestra la vista de pantalla activa
     switchViewMode('single');
 
-    // Mapea cada pestaña con su respectivo módulo modular
+    // Mapeo de los módulos externos
     const modules = {
-        'tee': renderSiliconTeModule(),       // Viene de silicon-tee.js
-        'mesh': renderMeshNetworkModule(),     // Viene de mesh-network.js
-        'vault': renderVectorVaultModule(),    // Viene de vector-vault.js
-        'neural': renderNeuralAgentModule()    // Viene de neural-agent.js
+        'tee': typeof renderSiliconTeModule === 'function' ? renderSiliconTeModule() : '',
+        'mesh': typeof renderMeshNetworkModule === 'function' ? renderMeshNetworkModule() : '',
+        'vault': typeof renderVectorVaultModule === 'function' ? renderVectorVaultModule() : '',
+        'neural': typeof renderNeuralAgentModule === 'function' ? renderNeuralAgentModule() : ''
     };
 
-    // Inyecta el contenido del módulo seleccionado en el contenedor principal
-    // (Puedes asegurarte de tener un <div id="dynamic-module-container"></div> en tu HTML para esto)
-    const container = document.getElementById('dynamic-module-container');
-    if (container && modules[tabId]) {
-        container.innerHTML = modules[tabId];
+    // Si el módulo existe para esa pestaña, lo inyecta en su contenedor
+    if (modules[tabId]) {
+        const targetContainer = document.getElementById('content-' + tabId);
+        if (targetContainer) {
+            targetContainer.innerHTML = modules[tabId];
+        }
     }
 
-    // Refresca los iconos gráficos de Lucide
+    // Gestiona el estilo visual activo de los botones de la barra de navegación
+    const tabs = ['hub', 'widget-designer', 'neural', 'vault', 'mesh', 'tee'];
+    tabs.forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        const content = document.getElementById('content-' + t);
+        if (t === tabId) {
+            if (btn) btn.className = "tab-btn px-3 py-1.5 rounded-lg bg-gray-800 text-white font-medium flex items-center gap-2 whitespace-nowrap border border-gray-700";
+            if (content) content.classList.remove('hidden');
+        } else {
+            if (btn) btn.className = "tab-btn px-3 py-1.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white font-medium flex items-center gap-2 whitespace-nowrap";
+            if (content) content.classList.add('hidden');
+        }
+    });
+
+    if (tabId === 'widget-designer') updateCustomWidget();
+
+    // Refresca los iconos gráficos
     if (window.lucide) {
         lucide.createIcons();
     }
-        
-
+}
