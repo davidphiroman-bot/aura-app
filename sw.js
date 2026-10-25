@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'aura-v5.4.0';
+const CACHE_VERSION = 'aura-v5.5.0';
 const STATIC_CACHE = `aura-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `aura-dynamic-${CACHE_VERSION}`;
 
@@ -11,13 +11,14 @@ const STATIC_ASSETS = [
   './silicon-tee.js',
   './mesh-network.js',
   './vector-vault.js',
-  './neural-agent.js'
+  './neural-agent.js',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 const EXTERNAL_ORIGINS = [
   'cdn.jsdelivr.net',
-  'unpkg.com',
-  'cdn-icons-png.flaticon.com'
+  'unpkg.com'
 ];
 
 self.addEventListener('install', (event) => {
@@ -99,4 +100,3 @@ self.addEventListener('fetch', (event) => {
     caches.match(request).then((response) => response || fetch(request))
   );
 });
-
