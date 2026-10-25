@@ -1,9 +1,9 @@
 /**
- * AURA AI SOVEREIGN OS - SERVICE WORKER v6.0.0
+ * AURA AI SOVEREIGN OS - SERVICE WORKER v6.1.0
  * Motor de Caché Atómica, PWA Offline-First y Control de Enclave
  */
 
-const CACHE_VERSION = 'aura-v6.0.0';
+const CACHE_VERSION = 'aura-v6.1.0';
 const STATIC_CACHE = `aura-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `aura-dynamic-${CACHE_VERSION}`;
 
@@ -12,10 +12,6 @@ const STATIC_ASSETS = [
   './index.html',
   './styles.css',
   './app.js',
-  './aura-engine.js',
-  './agent-studio.js',
-  './logo-studio.js',
-  './optical-studio.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -52,7 +48,7 @@ self.addEventListener('fetch', (event) => {
 
   if (request.method !== 'GET') return;
 
-  // Manejo de navegación SPA
+  // Manejo de navegación SPA y submódulos
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       fetch(request)
