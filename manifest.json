@@ -9,15 +9,15 @@
   "theme_color": "#050811",
   "icons": [
     {
-      "src": "./IMG-20261023-WA0009.jpg",
+      "src": "https://cdn-icons-png.flaticon.com/512/2103/2103633.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./IMG-20261023-WA0009.jpg",
+      "src": "https://cdn-icons-png.flaticon.com/512/2103/2103633.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]
